@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   Image,
   Animated,
@@ -10,7 +10,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import {WINDOW_WIDTH} from '../utils';
 import SearchInput from './SearchInput';
+
+const CATEGORY_BUTTON_WIDTH = WINDOW_WIDTH / 5;
 
 export default ({
   categories,
@@ -23,6 +26,17 @@ export default ({
   onChangeCategory: (categoryId: number) => void;
   animationStyle: any;
 }) => {
+  const scrollViewRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    // Scroll to position of active category.
+    scrollViewRef?.current?.scrollTo({
+      x: activeCategory * CATEGORY_BUTTON_WIDTH,
+      y: 0,
+      animated: false,
+    });
+  }, [activeCategory, scrollViewRef]);
+
   return (
     <Animated.View style={[styles.container, animationStyle]}>
       <SafeAreaView />
@@ -44,7 +58,10 @@ export default ({
         </TouchableOpacity>
       </View>
 
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView
+        ref={scrollViewRef}
+        horizontal
+        showsHorizontalScrollIndicator={false}>
         {categories.map(({id, name}, index) => {
           return (
             <TouchableOpacity onPress={() => onChangeCategory(index)} key={id}>
