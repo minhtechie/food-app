@@ -31,9 +31,4 @@ https://www.facebook.com/groups/minhtechie
 https://www.buymeacoffee.com/minhtechiejs 
 
 
-
-
-
-https://user-images.githubusercontent.com/80441311/174442167-f9f429f3-e923-4e73-a126-9f7448e4c4f6.mp4
-
-
+https://user-images.githubusercontent.com/68360917/174975150-cbc3d6a6-5146-48e4-be4a-54559d20e781.mp4
