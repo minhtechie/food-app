@@ -1,9 +1,10 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, { useRef, useState } from 'react';
 import {
   Animated,
   Image,
   Platform,
+  SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -13,13 +14,13 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-import Menu from './components/Menu';
-import MenuItem from './components/MenuItem';
-import AnimatedHeader from './components/AnimatedHeader';
-import SearchModal from './components/SearchModal';
-import ShopDetailRow from './components/ShopDetailRow';
-import {menuData} from './data/menuData';
-import {formatPrice} from './utils';
+import Menu from '../components/Menu';
+import MenuItem from '../components/MenuItem';
+import AnimatedHeader from '../components/AnimatedHeader';
+import SearchModal from '../components/SearchModal';
+import ShopDetailRow from '../components/ShopDetailRow';
+import { menuData } from '../data/menuData';
+import { formatPrice } from '../utils';
 
 const HEADER_HEIGHT = 80;
 
@@ -100,12 +101,12 @@ export default () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <StatusBar barStyle={'light-content'} />
 
       <TouchableOpacity style={styles.backButton}>
         <Animated.Image
-          source={require('./assets/images/chevron-left.png')}
+          source={require('../assets/images/chevron-left.png')}
           style={[styles.backIcon, backIconAnimation]}
         />
       </TouchableOpacity>
@@ -113,7 +114,7 @@ export default () => {
         style={styles.searchButton}
         onPress={() => setSearchModalVisible(true)}>
         <Animated.Image
-          source={require('./assets/images/search.png')}
+          source={require('../assets/images/search.png')}
           style={[styles.searchIcon, searchIconAnimation]}
         />
       </TouchableOpacity>
@@ -135,7 +136,7 @@ export default () => {
       <Animated.View style={[styles.bannerContainer, bannerAnimation]}>
         <Image
           style={styles.banner}
-          source={require('./assets/images/foodBanner.png')}
+          source={require('../assets/images/foodBanner.png')}
         />
         <LinearGradient
           style={styles.gradient}
@@ -149,11 +150,11 @@ export default () => {
           [
             {
               nativeEvent: {
-                contentOffset: {y: animatedValue},
+                contentOffset: { y: animatedValue },
               },
             },
           ],
-          {useNativeDriver: true, listener: event => handleScroll(event)},
+          { useNativeDriver: true, listener: event => handleScroll(event) },
         )}
         scrollEventThrottle={16}>
         <View style={styles.paddingForBanner} />
@@ -164,16 +165,16 @@ export default () => {
               <Text style={styles.shopName}>Minh Techie</Text>
             </ShopDetailRow>
 
-            <ShopDetailRow leftIcon={require('./assets/images/star.png')}>
+            <ShopDetailRow leftIcon={require('../assets/images/star.png')}>
               <Text style={styles.boldText}>4.5</Text>
               <Text style={styles.greyText}>(76)</Text>
               <View style={styles.dot} />
               <Text style={styles.regularText}>Ratings and reviews</Text>
             </ShopDetailRow>
 
-            <ShopDetailRow leftIcon={require('./assets/images/distance.png')}>
+            <ShopDetailRow leftIcon={require('../assets/images/distance.png')}>
               <View>
-                <View style={[styles.row, {marginBottom: 8}]}>
+                <View style={[styles.row, { marginBottom: 8 }]}>
                   <Text style={styles.boldText}>0.5 km</Text>
                   <Text style={styles.greyText}> (20 mins)</Text>
                 </View>
@@ -181,7 +182,7 @@ export default () => {
                   <Text style={styles.smallText}>Deliver now</Text>
                   <View style={styles.verticalBar} />
                   <Image
-                    source={require('./assets/images/motorcycle.png')}
+                    source={require('../assets/images/motorcycle.png')}
                     style={styles.bikeIcon}
                   />
                   <Text style={styles.smallText}>{formatPrice(16000)}</Text>
@@ -190,27 +191,27 @@ export default () => {
             </ShopDetailRow>
 
             <ShopDetailRow
-              leftIcon={require('./assets/images/tag.png')}
+              leftIcon={require('../assets/images/tag.png')}
               hideBorder>
               <Text style={styles.regularText}>Enjoy discount on items</Text>
             </ShopDetailRow>
           </View>
 
-          {menuData.map(({name, id, items}) => (
+          {menuData.map(({ name, id, items }) => (
             <Menu
               key={id}
               title={name}
               categoryPositions={categoryPositions}
               setCategoryPositions={setCategoryPositions}>
               {items.map(item => (
-                <MenuItem {...item} key={item.id} />
+                <MenuItem menuItem={item} key={item.id} />
               ))}
             </Menu>
           ))}
-          <View style={{height: 16}} />
+          <View style={{ height: 16 }} />
         </View>
       </Animated.ScrollView>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -283,7 +284,7 @@ const styles = StyleSheet.create({
     marginBottom: 32,
     borderRadius: 14,
     ...Platform.select({
-      android: {elevation: 3},
+      android: { elevation: 3 },
       ios: {
         shadowColor: '#d3d3d3',
         shadowOpacity: 1,
