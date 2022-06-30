@@ -20,7 +20,6 @@ import SearchModal from './components/SearchModal';
 import ShopDetailRow from './components/ShopDetailRow';
 import {menuData} from './data/menuData';
 import {formatPrice} from './utils';
-
 const HEADER_HEIGHT = 80;
 
 export type CategoryPositions = number[];
@@ -45,8 +44,18 @@ export default () => {
 
   const handleScroll = (event: any) => {
     const y = event.nativeEvent.contentOffset.y;
-    categoryPositions.forEach((position, index) => {
-      if (y >= position) {
+    categoryPositions.forEach((_, index) => {
+      if (y <= 0) {
+        setActiveCategory(-1);
+      }
+      if (index == 0 && y < categoryPositions[0] + HEADER_HEIGHT && y >= 184) {
+        setActiveCategory(0);
+      }
+      if (
+        y < categoryPositions[index] + HEADER_HEIGHT &&
+        y > categoryPositions[index - 1] + HEADER_HEIGHT &&
+        y >= categoryPositions[index] + HEADER_HEIGHT / 2
+      ) {
         setActiveCategory(index);
       }
     });
@@ -155,24 +164,7 @@ export default () => {
         <View style={styles.paddingForBanner} />
 
         <View style={styles.scrollViewContent}>
-          <View
-            style={styles.shopDetailsCard}
-            onLayout={(event: any) => {
-              event.target.measure(
-                (
-                  x: number,
-                  y: number,
-                  width: number,
-                  height: number,
-                  pageX: number,
-                  pageY: number,
-                ) => {
-                  setCategoryPositions(prev => {
-                    return [pageY + 40, ...prev];
-                  });
-                },
-              );
-            }}>
+          <View style={styles.shopDetailsCard}>
             <ShopDetailRow>
               <Text style={styles.shopName}>Minh Techie</Text>
             </ShopDetailRow>
