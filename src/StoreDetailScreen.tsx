@@ -33,7 +33,6 @@ export default () => {
   const [categoryPositions, setCategoryPositions] = useState<CategoryPositions>(
     [],
   );
-
   const scrollViewRef = useRef<ScrollView>(null);
 
   const scrollTo = (index: number) => {
@@ -47,11 +46,8 @@ export default () => {
   const handleScroll = (event: any) => {
     const y = event.nativeEvent.contentOffset.y;
     categoryPositions.forEach((position, index) => {
-      if (y >= position && y < categoryPositions[index + 1]) {
+      if (y >= position) {
         setActiveCategory(index);
-        return;
-      } else if (y > categoryPositions[categoryPositions.length - 1]) {
-        setActiveCategory(categoryPositions.length - 1);
       }
     });
   };
@@ -159,7 +155,24 @@ export default () => {
         <View style={styles.paddingForBanner} />
 
         <View style={styles.scrollViewContent}>
-          <View style={styles.shopDetailsCard}>
+          <View
+            style={styles.shopDetailsCard}
+            onLayout={(event: any) => {
+              event.target.measure(
+                (
+                  x: number,
+                  y: number,
+                  width: number,
+                  height: number,
+                  pageX: number,
+                  pageY: number,
+                ) => {
+                  setCategoryPositions(prev => {
+                    return [pageY + 40, ...prev];
+                  });
+                },
+              );
+            }}>
             <ShopDetailRow>
               <Text style={styles.shopName}>Minh Techie</Text>
             </ShopDetailRow>
