@@ -44,11 +44,16 @@ export default () => {
 
   const handleScroll = (event: any) => {
     const y = event.nativeEvent.contentOffset.y;
-    categoryPositions.forEach((_, index) => {
+    categoryPositions.forEach((position, index) => {
       if (y <= 0) {
         setActiveCategory(-1);
       }
-      if (index == 0 && y < categoryPositions[0] + HEADER_HEIGHT && y >= 184) {
+      if (
+        index == 0 &&
+        y >= position &&
+        y < categoryPositions[index + 1] &&
+        y < categoryPositions[0] + HEADER_HEIGHT
+      ) {
         setActiveCategory(0);
       }
       if (
