@@ -63,6 +63,7 @@ export default ({
         horizontal
         showsHorizontalScrollIndicator={false}>
         {categories.map(({id, name}, index) => {
+          
           return (
             <TouchableOpacity onPress={() => onChangeCategory(index)} key={id}>
               <Text

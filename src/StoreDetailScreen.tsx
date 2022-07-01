@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   Animated,
   Image,
@@ -20,7 +20,6 @@ import SearchModal from './components/SearchModal';
 import ShopDetailRow from './components/ShopDetailRow';
 import {menuData} from './data/menuData';
 import {formatPrice} from './utils';
-
 const HEADER_HEIGHT = 80;
 
 export type CategoryPositions = number[];
@@ -33,7 +32,6 @@ export default () => {
   const [categoryPositions, setCategoryPositions] = useState<CategoryPositions>(
     [],
   );
-
   const scrollViewRef = useRef<ScrollView>(null);
 
   const scrollTo = (index: number) => {
@@ -47,10 +45,32 @@ export default () => {
   const handleScroll = (event: any) => {
     const y = event.nativeEvent.contentOffset.y;
     categoryPositions.forEach((position, index) => {
-      if (y >= position && y < categoryPositions[index + 1]) {
+      if (y <= 0) {
+        setActiveCategory(-1);
+      }
+      if (
+        index == 0 &&
+        y >= position &&
+        y < categoryPositions[index + 1] &&
+        y < categoryPositions[0] + HEADER_HEIGHT
+      ) {
+        setActiveCategory(0);
+      }
+
+      if (
+        y < categoryPositions[index] + HEADER_HEIGHT &&
+        y > categoryPositions[index - 1] + HEADER_HEIGHT &&
+        y >= categoryPositions[index] + HEADER_HEIGHT / 2
+      ) {
         setActiveCategory(index);
-        return;
-      } else if (y > categoryPositions[categoryPositions.length - 1]) {
+      }
+      if (
+        y >=
+        (categoryPositions[categoryPositions.length - 2] +
+          HEADER_HEIGHT +
+          categoryPositions[categoryPositions.length - 1]) /
+          2
+      ) {
         setActiveCategory(categoryPositions.length - 1);
       }
     });
@@ -273,6 +293,7 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     paddingHorizontal: 16,
     backgroundColor: 'white',
+    marginBottom: HEADER_HEIGHT,
   },
   shopDetailsCard: {
     width: '100%',
