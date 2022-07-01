@@ -1,6 +1,6 @@
 import React from 'react';
-import StoreDetailScreen from './StoreDetailScreen';
+import MainNav from './navigation/mainNav';
 
 export default function App() {
-  return <StoreDetailScreen />;
+  return <MainNav />;
 }

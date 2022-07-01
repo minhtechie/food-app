@@ -9,6 +9,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import {formatPrice} from '../utils';
+import { useNavigation } from '@react-navigation/native';
 
 type MenuItemProps = {
   id: string;
@@ -18,9 +19,21 @@ type MenuItemProps = {
   description: string;
   style?: ViewStyle;
 };
-export default ({name, image, price, description, style}: MenuItemProps) => {
+
+type Props = {
+  menuItem: MenuItemProps,
+}
+export default ({ menuItem }: Props) => {
+  const navigation = useNavigation();
+
+  const { name, image, price, description, style } = menuItem;
+
   return (
-    <TouchableOpacity style={[styles.container, style]}>
+    <>
+      <TouchableOpacity
+        onPress={() => { navigation.navigate('DishDetail', menuItem) }}
+        style={[styles.container, style]}
+      >
       <Image source={image} style={styles.image} />
       <View style={styles.dishInfo}>
         <View>
@@ -30,6 +43,7 @@ export default ({name, image, price, description, style}: MenuItemProps) => {
         <Text style={styles.price}>{formatPrice(price)}</Text>
       </View>
     </TouchableOpacity>
+    </>
   );
 };
 

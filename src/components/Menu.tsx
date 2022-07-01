@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {CategoryPositions} from '../StoreDetailScreen';
+import { CategoryPositions } from '../screens/StoreDetailScreen';
 
 export default ({
   title,
