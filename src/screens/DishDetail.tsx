@@ -250,7 +250,8 @@ const styles = StyleSheet.create({
 
   totalBtn: {
     width: '90%',
-    height: 42,
+    height: 44,
+    justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 15,
     backgroundColor: '#02B14F',
