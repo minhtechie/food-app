@@ -45,16 +45,9 @@ export default () => {
   const handleScroll = (event: any) => {
     const y = event.nativeEvent.contentOffset.y;
     categoryPositions.forEach((position, index) => {
-      /* When scroll offset smaller dont active tabar*/
       if (y <= 0) {
         setActiveCategory(-1);
       }
-
-      /*
-      - Bởi vì điều kiện active index cần phải kiểm tra vị trị của item trước đó nên cần có một điều kiện riêng cho vị trị item đầu tiên
-      - Khi index == 0 ta cần y lớn hơn position của nó và y bé hơn item đằng sau nó + thêm y phải bé hơn vị trí item hiện tại mới active (cho cả tình huống lên xuống)
-      */
-
       if (
         index == 0 &&
         y >= position &&
@@ -64,13 +57,6 @@ export default () => {
         setActiveCategory(0);
       }
 
-      /*
-      - Y phải bé hơn vị trí item + chiều cao của header
-      - Y Phải lớn hơn vị trí item đằng trước vị trí item hiện tại
-      - Y phải lớn hơn item hiện tại + chiều cao một nửa header
-      - Ví dụ khi scroll ngược lại index từ 2 đến 1 thì y khi y bé hơn 300 và lớn hơn 200 và lớn hơn 240 còn lại 40 là chiều cao header chia nửa
-      */
-
       if (
         y < categoryPositions[index] + HEADER_HEIGHT &&
         y > categoryPositions[index - 1] + HEADER_HEIGHT &&
@@ -78,9 +64,6 @@ export default () => {
       ) {
         setActiveCategory(index);
       }
-
-      /* Khi y lớn hơn tổng của categoryPositions[categoryPositions.length - 2] +HEADER_HEIGHT và (categoryPositions[categoryPositions.length 1]) chia 2 thì cho active index cuối cùng */
-
       if (
         y >=
         (categoryPositions[categoryPositions.length - 2] +
