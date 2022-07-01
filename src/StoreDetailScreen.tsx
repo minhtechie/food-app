@@ -63,6 +63,16 @@ export default () => {
       ) {
         setActiveCategory(index);
       }
+
+      if (
+        y >=
+        (categoryPositions[categoryPositions.length - 2] +
+          HEADER_HEIGHT +
+          categoryPositions[categoryPositions.length - 1]) /
+          2
+      ) {
+        setActiveCategory(categoryPositions.length - 1);
+      }
     });
   };
 
@@ -283,6 +293,7 @@ const styles = StyleSheet.create({
   scrollViewContent: {
     paddingHorizontal: 16,
     backgroundColor: 'white',
+    marginBottom:HEADER_HEIGHT
   },
   shopDetailsCard: {
     width: '100%',
